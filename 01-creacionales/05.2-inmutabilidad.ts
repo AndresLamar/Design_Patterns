@@ -29,7 +29,7 @@ class Player {
   readonly score: number;
   readonly level: number;
 
-  constructor({ level, name, score }: PlayerProps) {
+  constructor(name: string, score: number, level: number) {
     this.name = name;
     this.score = score;
     this.level = level;
@@ -37,11 +37,7 @@ class Player {
 
   // Método copyWith para crear una copia modificada del jugador
   copyWith({ name, score, level }: Partial<Player>): Player {
-    return new Player({
-      level: level ?? this.level,
-      name: name ?? this.name,
-      score: score ?? this.score,
-    });
+    return new Player(name ?? this.name, score ?? this.score, level ?? this.level)
   }
 
   displayState(): void {
@@ -54,11 +50,7 @@ class Player {
 // 2. Código Cliente para probar
 function main() {
   // Crear jugador inicial
-  let player = new Player({
-    level: 1,
-    name: 'Carlos',
-    score: 0,
-  });
+  let player = new Player('Carlos', 0, 1);
   console.log('Estado inicial:');
   player.displayState();
 

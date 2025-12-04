@@ -7,7 +7,7 @@
  *
  */
 
-import { COLORS } from '../helpers/colors.ts';
+import { COLORS } from "../helpers/colors.ts";
 
 class CodeEditorState {
   readonly content: string;
@@ -37,18 +37,18 @@ class CodeEditorState {
   }
 
   displayState() {
-    console.log('\n%cEstado del editor:', COLORS.green);
+    console.log("\n%cEstado del editor:", COLORS.green);
     console.log(`
-        Contenido: ${this.content}
-        Cursor Pos: ${this.cursorPosition}
-        Unsaved changes: ${this.unsavedChanges}
-    `);
+            Contenido: ${this.content}
+            Cursor Position: ${this.cursorPosition}
+            Unsaved changes: ${this.unsavedChanges}
+        `);
   }
 }
 
 class CodeEditorHistory {
   private history: CodeEditorState[] = [];
-  private currentIndex: number = -1; // 0,1,2,3,4,5,6
+  private currentIndex: number = -1;
 
   save(state: CodeEditorState): void {
     if (this.currentIndex < this.history.length - 1) {
@@ -60,12 +60,13 @@ class CodeEditorHistory {
   }
 
   undo(): CodeEditorState | null {
-    if (this.currentIndex > 0) {
-      this.currentIndex--;
-      return this.history[this.currentIndex];
+    if(this.currentIndex > 0){
+        this.currentIndex--;
+        return this.history[this.currentIndex];
     }
 
     return null;
+
   }
 
   redo(): CodeEditorState | null {
@@ -74,40 +75,42 @@ class CodeEditorHistory {
       return this.history[this.currentIndex];
     }
 
-    return null; // 0,1,2,3,4,5
+    return null;
   }
 }
 
 function main() {
   const history = new CodeEditorHistory();
-  let editorState = new CodeEditorState("console.log('Hola Mundo');", 2, false);
+  let editorState = new CodeEditorState("console.log('hola mundo');", 2, false);
 
   history.save(editorState);
 
-  console.log('%cEstado inicial', COLORS.blue);
+  console.log('%cEstado Inicial', COLORS.blue);
   editorState.displayState();
 
   editorState = editorState.copyWith({
-    content: "console.log('Hola Mundo'); \nconsole.log('Nueva línea');",
+    content: "console.log('hola mundo'); \nconsole.log('Nueva linea');",
     cursorPosition: 3,
     unsavedChanges: true,
   });
+
   history.save(editorState);
 
-  console.log('\n%cDespués del primer cambio', COLORS.blue);
+  console.log("\n  %cDespués del primer cambio", COLORS.blue);
   editorState.displayState();
 
-  console.log('\n%cDespués de mover el cursor', COLORS.blue);
   editorState = editorState.copyWith({ cursorPosition: 5 });
   history.save(editorState);
+
+  console.log("\n  %cDespués de mover el cursor", COLORS.blue);
   editorState.displayState();
 
-  console.log('\n%cDespués del Undo', COLORS.blue);
-  editorState = history.undo()!;
+  console.log("\n  %cDespués del undo", COLORS.blue);
+  editorState = history.undo()!; 
   editorState.displayState();
-
-  console.log('\n%cDespués del Redo', COLORS.blue);
-  editorState = history.redo()!;
+  
+  console.log("\n  %cDespués del redo", COLORS.blue);
+  editorState = history.redo()!; 
   editorState.displayState();
 }
 

@@ -12,7 +12,7 @@
  * https://refactoring.guru/es/design-patterns/abstract-factory
  */
 
-import { COLORS } from '../helpers/colors.ts';
+import { COLORS } from "../helpers/colors.ts";
 
 /**
  * !Instrucciones:
@@ -42,26 +42,35 @@ interface Engine {
 // 2. Clases Concretas de Productos
 
 class ElectricCar implements Vehicle {
+  // Implementación del método assemble
+  // 'Ensamblando un auto eléctrico'
   assemble(): void {
-    console.log('Ensamblando un auto %celéctrico', COLORS.blue);
+    console.log("%cEnsamblando un auto eléctrico", COLORS.green);
+    
   }
 }
 
 class GasCar implements Vehicle {
+  // Implementación del método assemble
+  // 'Ensamblando un auto de combustión'
   assemble(): void {
-    console.log('Ensamblando un auto de %ccombustión', COLORS.brown);
+    console.log("%cEnsamblando un auto combustión", COLORS.green);
   }
 }
 
 class ElectricEngine implements Engine {
+  // Implementación del método start
+  // 'Arrancando motor eléctrico'
   start(): void {
-    console.log('Arrancando motor %celéctrico', COLORS.blue);
+    console.log("%cArrancando motor eléctrico", COLORS.blue);
   }
 }
 
 class GasEngine implements Engine {
+  // Implementación del método start
+  // 'Arrancando motor de combustión'
   start(): void {
-    console.log('Arrancando motor de %ccombustión', COLORS.brown);
+    console.log("%cArrancando motor combustión", COLORS.blue);
   }
 }
 
@@ -74,6 +83,7 @@ interface VehicleFactory {
 
 // 4. Clases Concretas de Fábricas
 class ElectricVehicleFactory implements VehicleFactory {
+  // Implementación de los métodos createVehicle y createEngine
   createVehicle(): Vehicle {
     return new ElectricCar();
   }
@@ -90,7 +100,6 @@ class GasVehicleFactory implements VehicleFactory {
   createEngine(): Engine {
     return new GasEngine();
   }
-  // Implementación de los métodos createVehicle y createEngine
 }
 
 // 5. Código Cliente

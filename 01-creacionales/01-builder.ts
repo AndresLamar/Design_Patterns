@@ -13,21 +13,21 @@
  * https://refactoring.guru/es/design-patterns/builder
  */
 
-import { COLORS } from '../helpers/colors.ts';
+import { COLORS } from "../helpers/colors.ts";
 
 class Computer {
-  public cpu: string = 'cpu - not defined';
-  public ram: string = 'ram - not defined';
-  public storage: string = 'storage - not defined';
+  public cpu: string = "cpu - not defined";
+  public ram: string = "ram - not defined";
+  public storage: string = "storage - not defined";
   public gpu?: string;
 
-  displayConfiguration() {
-    console.log(`Configuración de la computadora
-      CPU: ${this.cpu}  
-      RAM: ${this.ram}  
-      Almacenamiento: ${this.storage}  
-      GPU: ${this.gpu ?? 'No tiene GPU'}  
-      `);
+  displayConfiguration(): void {
+    console.log(`Configuración de la computadora:
+            CPU: ${this.cpu}
+            RAM: ${this.ram}
+            Almacenamiento: ${this.storage}
+            ${this.gpu ? `GPU: ${this.gpu}` : ""}
+        `);
   }
 }
 
@@ -58,29 +58,29 @@ class ComputerBuilder {
     return this;
   }
 
-  build() {
+  build(): Computer {
     return this.computer;
   }
 }
 
 function main() {
   const basicComputer: Computer = new ComputerBuilder()
-    .setCPU('Intel Core 2 Dúo')
-    .setRAM('4GB')
-    .setStorage('256GB')
+    .setCPU("Intel Core i3")
+    .setRAM("8GB")
+    .setStorage("256GB")
     .build();
 
-  console.log('%cComputadora básica:', COLORS.blue);
-  basicComputer.displayConfiguration();
+//   console.log("%cComputadora básica:", COLORS.blue);
+//   basicComputer.displayConfiguration();
 
-  const gamingComputer = new ComputerBuilder()
-    .setCPU('Intel i9')
-    .setRAM('64GB')
-    .setStorage('1TB M2')
-    .setGPU('Nvidia RTX 5090')
+  const gamingComputer: Computer = new ComputerBuilder()
+    .setCPU("Intel Core i7")
+    .setRAM("16GB")
+    .setStorage("1TB")
+    .setGPU("NVIDIA GeForce RTX 4060")
     .build();
 
-  console.log('%c\nComputadora gamer\n', COLORS.cyan);
+  console.log("%cComputadora gamer:", COLORS.blue);
   gamingComputer.displayConfiguration();
 }
 

@@ -16,34 +16,37 @@
 import { COLORS } from '../helpers/colors.ts';
 
 interface Hamburger {
-  prepare(): void;
+    prepare(): void;
 }
 
 class ChickenHamburger implements Hamburger {
   prepare(): void {
-    console.log('Preparando una hamburguesa de %cpollo', COLORS.yellow);
+    console.log('Preparando hamburger de %cpollo', COLORS.yellow);
+    
   }
 }
 
 class BeefHamburger implements Hamburger {
   prepare(): void {
-    console.log('Preparando una hamburguesa de %cres', COLORS.brown);
+    console.log('Preparando hamburger de %cres', COLORS.brown);
+    
   }
 }
 
 class BeanHamburger implements Hamburger {
   prepare(): void {
-    console.log('Preparando una hamburguesa de %cfrijol', COLORS.orange);
+    console.log('Preparando hamburger de %cfrijoles', COLORS.orange);
+    
   }
 }
 
 abstract class Restaurant {
-  protected abstract createHamburger(): Hamburger;
+    protected abstract createHamburger(): Hamburger;
 
-  orderHamburger(): void {
-    const hamburger = this.createHamburger();
-    hamburger.prepare();
-  }
+    orderHamburger(): void {
+        const hamburger = this.createHamburger();
+        hamburger.prepare();
+    }
 }
 
 class ChickenRestaurant extends Restaurant {
@@ -65,30 +68,26 @@ class BeanRestaurant extends Restaurant {
 }
 
 function main() {
-  let restaurant: Restaurant;
+    let restaurant: Restaurant;
 
-  const burgerType = prompt(
-    '¿Qué tipo de hamburguesa quieres? ( chicken/beef/bean )'
-  );
+    const burgetType = prompt('¿Qué tipo de hamburger deseas? (chicken/beef/bean)');
 
-  switch (burgerType) {
-    case 'chicken':
-      restaurant = new ChickenRestaurant();
-      break;
+    switch (burgetType) {
+        case 'chicken':
+            restaurant = new ChickenRestaurant();
+            break;
+        case 'beef':
+            restaurant = new BeefRestaurant();
+            break;
+        case 'bean':
+            restaurant = new BeanRestaurant();
+            break;
+        default:
+            throw new Error('Opción no válida');
+    }
 
-    case 'beef':
-      restaurant = new BeefRestaurant();
-      break;
-
-    case 'bean':
-      restaurant = new BeanRestaurant();
-      break;
-
-    default:
-      throw new Error('Opción no válida');
-  }
-
-  restaurant.orderHamburger();
+    restaurant.orderHamburger();
+    
 }
 
 main();

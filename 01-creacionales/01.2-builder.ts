@@ -11,7 +11,7 @@
  * * que lo componen.
  */
 
-import { COLORS } from '../helpers/colors.ts';
+import { COLORS } from "../helpers/colors.ts";
 
 //! Tarea: crear un QueryBuilder para construir consultas SQL
 /**
@@ -49,56 +49,66 @@ class QueryBuilder {
     this.table = table;
   }
 
-  select(...fields: string[]): QueryBuilder {
+  select(...fields: string[]): QueryBuilder {  
+    if(this.fields.length > 0){
+      throw new Error('Select can´t be assigned twice');
+    }
+    
     this.fields = fields;
+
     return this;
   }
 
   where(condition: string): QueryBuilder {
     this.conditions.push(condition);
+
     return this;
   }
 
-  orderBy(field: string, direction: 'ASC' | 'DESC' = 'ASC'): QueryBuilder {
-    this.orderFields.push(`order by ${field} ${direction}`);
+  orderBy(field: string, direction: "ASC" | "DESC" = "ASC"): QueryBuilder {
+    this.orderFields.push(`${field} ${direction}`)
     return this;
   }
 
   limit(count: number): QueryBuilder {
+    if (this.limitCount) {
+      throw new Error("Limit count can´t be assigned twice");
+    }
+
+    if(count < 1){
+      throw new Error ('Parameter count can´t be lees than 1')
+    }
+
     this.limitCount = count;
     return this;
   }
 
   execute(): string {
-    const fields = this.fields.length > 0 ? this.fields.join(', ') : '*';
+    // Select id, name, email from users where age > 18 and country = 'Cri' order by name ASC limit 10;
+    const fields = this.fields.length > 0 ? this.fields.join(",") : '*';
 
-    const whereClause =
-      this.conditions.length > 0
-        ? `WHERE ${this.conditions.join(' AND ')}`
-        : ' ';
+    const conditions = this.conditions.length === 1 ? this.conditions[0] :this.conditions.join(' AND ');
 
-    const orderByClause =
-      this.orderFields.length > 0
-        ? `ORDER BY ${this.orderFields.join(', ')}`
-        : '';
+    const orderFields = this.orderFields.length > 0 ? this.orderFields.join(',') : '';
 
-    const limitClause = this.limitCount ? `LIMIT ${this.limitCount}` : '';
-
-    return `Select ${fields} from ${this.table} ${whereClause} ${orderByClause} ${limitClause}`;
+    return `SELECT ${fields} FROM ${this.table} ${
+      this.conditions.length > 0 ? `WHERE ${conditions}` : ""
+    } ${this.orderFields.length > 0 ? `ORDER BY ${orderFields}` : ""} ${
+      this.limitCount ? `LIMIT ${this.limitCount}` : ""
+    }`;
   }
 }
 
 function main() {
-  const usersQuery = new QueryBuilder('users')
-    .select('id', 'name', 'email')
-    .where('age > 20')
-    // .where("country = 'CHI'") // Esto debe de hacer una condición AND
-    .orderBy('name', 'ASC')
-    .orderBy('age', 'DESC')
-    .limit(100)
+  const usersQuery = new QueryBuilder("users")
+    .select("id", "name", "email")
+    .where("age > 18")
+    .where("country = 'Cri'") // Esto debe de hacer una condición AND
+    .orderBy("name", "ASC")
+    .limit(10)
     .execute();
 
-  console.log('%cConsulta:\n', COLORS.red);
+  console.log("%cConsulta:\n", COLORS.red);
   console.log(usersQuery);
 }
 
