@@ -11,61 +11,57 @@
  *
  */
 
-import { COLORS } from '../helpers/colors.ts';
+import { COLORS } from "../helpers/colors.ts";
 
 class Player {
-  name: string;
-  level: number;
-
-  constructor(name: string, level: number) {
-    this.name = name;
-    this.level = level;
-  }
+    constructor(public name: string, public level: number){}
 }
 
 interface Room {
-  enter(player: Player): void;
+    enter(player: Player): void;
 }
 
 class SecretRoom implements Room {
-  enter(player: Player): void {
-    console.log(`%cBienvenido a la sala secreta, ${player.name}`, COLORS.blue);
-    console.log(`Una gran enemigo te espera`);
-  }
+    enter(player: Player): void {
+        console.log(`%cBienvenido a la sala secret ${player.name}`, COLORS.green);
+        console.log('Un gran enemigo te espera');
+        
+    }
 }
 
-// 3. Clase Proxy - Magic Portal
+// Clase Proxy - Magic Portal
 class MagicPortal implements Room {
-  private secretRom: Room;
+    private room: Room;
 
-  constructor(room: Room) {
-    this.secretRom = room;
-  }
-
-  enter(player: Player): void {
-    if (player.level >= 10) {
-      this.secretRom.enter(player);
-      return;
+    constructor(room: Room){
+        this.room = room;
     }
 
-    console.log(
-      `%cLo siento mucho ${player.name}, Tu nivel ${player.level}, es muy bajo, necesitas nivel 10`,
-      COLORS.red
-    );
-  }
+    enter(player: Player): void {
+        if(player.level >= 10){
+            this.room.enter(player);
+            return;
+        } 
+        console.log(`%cAcceso denegado. ${player.name}, no tienes nivel suficiente para entrar a la sala secret. Necesitas nivel 10.`, COLORS.red);
+    }
 }
 
 function main() {
-  const portal = new MagicPortal(new SecretRoom()); // Proxy
+    const secretRoom = new SecretRoom();
+    const magicPortal = new MagicPortal(secretRoom);
 
-  const player1 = new Player('Aventurero A', 5);
-  const player2 = new Player('Aventurero B', 15);
+    const player1 = new Player('Juan', 5);
+    const player2 = new Player('Ana', 10);
+    const player3 = new Player('Pedro', 15);
 
-  console.log('%cAventurero A intenta entrar al portal', COLORS.blue);
-  portal.enter(player1);
+    console.log('Intento de acceso del jugador 1:');
+    magicPortal.enter(player1);
 
-  console.log('%c\nAventurero B intenta entrar al portal', COLORS.blue);
-  portal.enter(player2);
+    console.log('\nIntento de acceso del jugador 2:');
+    magicPortal.enter(player2);
+    
+    console.log('\nIntento de acceso del jugador 3:');
+    magicPortal.enter(player3);
 }
 
 main();

@@ -22,11 +22,14 @@ interface Character {
 // Representa un personaje básico sin accesorios
 // TODO: Implementar la interfaz Character
 class BasicCharacter implements Character {
-  getDescription(): string {
+  // TODO: Implementar los métodos de la interfaz
+  // getDescription: return 'Personaje básico';
+  getDescription(): string{
     return 'Personaje básico';
   }
-
-  getStats(): { attack: number; defense: number } {
+  // TODO: Implementar los métodos de la interfaz
+  // getStats: return { attack: 10, defense: 10 };
+  getStats(): {attack: number; defense: number}{
     return { attack: 10, defense: 10 };
   }
 }
@@ -34,16 +37,24 @@ class BasicCharacter implements Character {
 // 3. Clase Decoradora CharacterDecorator
 // Actúa como base para los decoradores específicos
 abstract class CharacterDecorator implements Character {
+  // Protected para que las clases hijas puedan acceder a la propiedad
+  // Private no permitiría que las clases hijas accedan a la propiedad
+  // TODO: Definir la propiedad protected character de tipo Character
   protected character: Character;
 
-  constructor(character: Character) {
+  // TODO: Definir el constructor que recibe un personaje de tipo Character
+  constructor(character: Character){
     this.character = character;
   }
 
+  // TODO: Implementar los métodos de la interfaz Character, pero retornando
+  // la descripción y estadísticas del personaje decorado
   getDescription(): string {
+    // throw new Error('Method not implemented.');
     return this.character.getDescription();
   }
 
+  // TODO: Implementar los métodos de la interfaz Character
   getStats(): { attack: number; defense: number } {
     return this.character.getStats();
   }
@@ -90,9 +101,10 @@ class SwordDecorator extends CharacterDecorator {
 
 // TODO: Crear un nuevo decorador que añada un anillo que aumenta el ataque en +3
 // class RingDecorator ...
+
 class RingDecorator extends CharacterDecorator {
   override getDescription(): string {
-    return this.character.getDescription() + '\n * con Anillo';
+    return this.character.getDescription() + "\n * con Anillo";
   }
 
   override getStats(): { attack: number; defense: number } {

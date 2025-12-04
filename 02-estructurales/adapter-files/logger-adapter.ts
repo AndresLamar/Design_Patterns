@@ -1,16 +1,15 @@
 import { Logger } from 'jsr:@deno-library/logger';
 
 // TODO: Implementar el LoggerAdapter
+interface IloggerAdapter {
+    file: string;
 
-interface ILoggerAdapter {
-  file: string;
-
-  writeLog: (msg: string) => void;
-  writeWarning: (msg: string) => void;
-  writeError: (msg: string) => void;
+    writeLog: ( message: string) => void;
+    writeError: ( message: string) => void;
+    writeWarning:( message: string) => void;
 }
 
-export class DenoLoggerAdapter implements ILoggerAdapter {
+export class DenoLoggerAdapter implements IloggerAdapter {
   public file: string;
   private logger = new Logger();
 
@@ -18,15 +17,15 @@ export class DenoLoggerAdapter implements ILoggerAdapter {
     this.file = file;
   }
 
-  writeLog(msg: string) {
-    this.logger.info(`[${this.file} Log] ${msg}`);
+  writeLog(message: string): void {
+    this.logger.info(`[${this.file} log] ${message}`);
   }
 
-  writeWarning(msg: string) {
-    this.logger.warn(`[${this.file} warning] %c${msg}`);
+  writeWarning(message: string): void {
+    this.logger.warn(`[${this.file} warning] ${message}`);
   }
 
-  writeError(msg: string) {
-    this.logger.error(`[${this.file} error] %c${msg}`);
+  writeError(message: string): void {
+    this.logger.error(`[${this.file} error] ${message}`);
   }
 }

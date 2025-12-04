@@ -44,29 +44,39 @@ class MenuItem implements MenuComponent {
 // 3. Clase MenuCategory
 // Representa una categoría de menú que puede contener otros ítems o subcategorías.
 class MenuCategory implements MenuComponent {
+  // TODO: Crear dos propiedades privadas: name y items
+  // Name sting y items arreglo de MenuComponent
+  // Name es recibida en el constructor, items se inicializa como un arreglo vacío
   private name: string;
   private items: MenuComponent[] = [];
 
-  constructor(name: string) {
+  constructor(name: string){
     this.name = name;
   }
 
+  //TODO: Sobrecarga de operadores - Item puede ser MenuComponent o un arreglo de MenuComponent
   add(item: MenuComponent | MenuComponent[]): void {
-    if (Array.isArray(item)) {
-      this.items.push(...item);
-      return;
+    // TODO: Implementar la sobrecarga de operadores
+    // throw new Error('Method not implemented.');
+    if(Array.isArray(item) ){
+      // item.forEach(item => this.items.push(item))
+      this.items.push(...item)
+      return
     }
 
-    this.items.push(item);
+    this.items.push(item)
   }
 
   showDetails(indent: string = ''): void {
     console.log(`%c${indent}+ ${this.name}`, COLORS.blue);
-    this.items.forEach((item) => item.showDetails(indent + ' '));
+    // TODO: Implementar foreach
+    this.items.forEach(item => item.showDetails(indent + ' '))
   }
 }
 
 // 4. Código Cliente para Probar el Composite
+// TODO: en esta función main, no deben de hacer nada, al ejecutarla,
+// Deben de ver la gráfica correcta del menú
 function main() {
   // Crear ítems individuales
   const salad = new MenuItem('Ensalada', 5.99);
@@ -88,14 +98,13 @@ function main() {
   const beverages = new MenuCategory('Bebidas');
 
   const hotBeverages = new MenuCategory('Calientes');
-  const coldBeverages = new MenuCategory('Frías');
-
-  coldBeverages.add(soda);
-
   hotBeverages.add(coffee);
   hotBeverages.add(te);
 
-  beverages.add([coldBeverages, hotBeverages]);
+  const coldBeverages = new MenuCategory('Frias');
+  coldBeverages.add(soda);
+
+  beverages.add([hotBeverages, coldBeverages]);
 
   const desserts = new MenuCategory('Postres');
   desserts.add(dessert);
