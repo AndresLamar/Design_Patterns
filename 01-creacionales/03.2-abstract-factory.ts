@@ -12,6 +12,8 @@
  * https://refactoring.guru/es/design-patterns/abstract-factory
  */
 
+import { COLORS } from "../helpers/colors.ts";
+
 /**
  * !Instrucciones:
  	1.Completen las Clases de Productos:
@@ -39,24 +41,37 @@ interface Engine {
 
 // 2. Clases Concretas de Productos
 
-class ElectricCar {
+class ElectricCar implements Vehicle {
   // Implementación del método assemble
   // 'Ensamblando un auto eléctrico'
+  assemble(): void {
+    console.log("%cEnsamblando un auto eléctrico", COLORS.green);
+    
+  }
 }
 
-class GasCar {
+class GasCar implements Vehicle {
   // Implementación del método assemble
   // 'Ensamblando un auto de combustión'
+  assemble(): void {
+    console.log("%cEnsamblando un auto combustión", COLORS.green);
+  }
 }
 
-class ElectricEngine {
+class ElectricEngine implements Engine {
   // Implementación del método start
   // 'Arrancando motor eléctrico'
+  start(): void {
+    console.log("%cArrancando motor eléctrico", COLORS.blue);
+  }
 }
 
-class GasEngine {
+class GasEngine implements Engine {
   // Implementación del método start
   // 'Arrancando motor de combustión'
+  start(): void {
+    console.log("%cArrancando motor combustión", COLORS.blue);
+  }
 }
 
 // 3. Interfaz de la Fábrica Abstracta
@@ -70,10 +85,23 @@ interface VehicleFactory {
 
 class ElectricVehicleFactory implements VehicleFactory {
   // Implementación de los métodos createVehicle y createEngine
+  createVehicle(): Vehicle {
+    return new ElectricCar();
+  }
+
+  createEngine(): Engine {
+    return new ElectricEngine();
+  }
 }
 
 class GasVehicleFactory implements VehicleFactory {
   // Implementación de los métodos createVehicle y createEngine
+  createVehicle(): Vehicle {
+    return new GasCar();
+  }
+  createEngine(): Engine {
+    return new GasEngine();
+  }
 }
 
 // 5. Código Cliente
